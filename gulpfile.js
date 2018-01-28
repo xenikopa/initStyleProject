@@ -1,13 +1,14 @@
-var gulp = require("gulp");
-var browserSync = require('browser-sync').create();
-var filter = require('gulp-filter');
-var pug = require('gulp-pug');
-var stylus = require('gulp-stylus');
-var uglify = require('gulp-uglify'); //minify js
-var prettify = require('gulp-prettify');
-var clean = require('rimraf');
+const gulp = require("gulp");
+const browserSync = require('browser-sync').create();
+const filter = require('gulp-filter');
+const pug = require('gulp-pug');
+const stylus = require('gulp-stylus');
+const uglify = require('gulp-uglify'); //minify js
+const prettify = require('gulp-prettify');
+const clean = require('rimraf');
+const concat = require('gulp-concat');
 
-var arrPath = {
+const arrPath = {
     'src': {
         'pug': [
             './src/html/*.pug',
@@ -64,6 +65,7 @@ gulp.task('build:stylus', function() {
             'include css': true,
             compress: true,
         }))
+        .pipe(concat('styles.css'))
         .on('error', console.log)
         .pipe(gulp.dest(arrPath.build.css));
 });

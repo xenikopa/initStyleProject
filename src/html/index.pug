@@ -7,4 +7,22 @@ html(lang="en")
         link(rel="stylesheet", href="./css/styles.css")
         title Index page
     body
-        h2 Hello, world
+        h3 Examples
+        input.menu-toggle#toggle(type="checkbox")
+        label(for="toggle")
+        .menu
+            .menu_header
+                h4 Hello, I'm menu only css 
+            .menu_list
+                ul.menu_node-parent
+                    each nodeID in [1, 2, 3, 4, 5]
+                        if (nodeID != 2)
+                            li= 'Node ' + nodeID   
+                        else 
+                            li= 'Parent Node ' + nodeID   
+                                input#arrow(type='checkbox')
+                                label.block-nodes_arrow(for='arrow')
+                                ul.menu_node-child
+                                    each nodeID in [1, 2, 3, 4, 5]
+                                        li= 'Child Node ' + nodeID   
+

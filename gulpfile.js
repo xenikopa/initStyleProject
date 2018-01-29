@@ -7,6 +7,10 @@ const uglify = require('gulp-uglify'); //minify js
 const prettify = require('gulp-prettify');
 const clean = require('rimraf');
 const concat = require('gulp-concat');
+const svgMin = require('gulp-svgmin');
+const cheerio = require('cheerio');
+const svgSprite = require('svg-sprite');
+const rename = require('gulp-rename');
 
 const arrPath = {
     'src': {
@@ -14,18 +18,23 @@ const arrPath = {
             './src/html/*.pug',
         ],
         'stylus': [
+            './src/css/style.styl',
             './src/css/*.styl',
-            './src/css/libs/*.styl'
         ],
         'fonts': [
             './src/fonts/*.*',
+        ],
+        'img': [
+            './src/img/*.*',
         ]
     },
     'build': {
         'main': './build/',
         'html': './build/',
         'css': './build/css/',
-        'fonts': './build/fonts/'
+        'fonts': './build/fonts/',
+        'img': './build/img/',
+        'sprite': './build/sprite/'
     },
     'watch': {
         'pug': [
@@ -74,6 +83,28 @@ gulp.task('build:fonts',function(){
     gulp
         .src(arrPath.src.fonts)
         .pipe(gulp.dest(arrPath.build.fonts))
+})
+
+/**
+ * TODO: TypeError: dest.write is not a function
+ */
+//sprite svg
+gulp.task('build:sprite', function() {
+    gulp
+        .src(arrPath.src.img)
+        .pipe(svgMin({
+            js2svg: {
+                pretty: true
+            }
+        }))
+        .pipe(svgSprite({
+            mode: {
+                symbol: true
+            }
+        }))
+        .pipe(rename("sprite.html"))
+        .on('error', console.log)
+        .pipe(gulp.dest(arrPath.build.sprite));
 })
 
 // build all

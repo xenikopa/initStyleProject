@@ -13,16 +13,16 @@
             display: none;
         & ~ .menu_icon:before 
             content: "\e98f";
-        & ~ .menu .menu_list li span
+        & ~ .menu .menu_node-title span
             display: none;
-         & ~ .menu .menu_icon
+        & ~ .menu .menu_icon
             &-alone:before 
                 font-family: IcoMoon;
                 content: "\e9d2";
             &-parent:before
                 font-family: IcoMoon;
                 content: "\e9d3";
-        & ~ .menu .menu_list li 
+        & ~ .menu .menu_node-title
             cursor: pointer;
             &:hover > span
                 display: inline-block;
@@ -91,3 +91,7 @@
         display: inline-grid;
         position: relative;
         transform: translateY(-50%);
+    & i 
+        font-style: normal;
+    &_node-title
+        display: inline-block;

@@ -12,21 +12,26 @@ html(lang="en")
         label.menu_icon(for="toggle")
         .menu
             .menu_header
-                span.menu_icon-home
+                i.menu_icon-home
                 h4 Hello, I'm menu only css 
             .menu_list
                 ul.menu_node-parent
                     each nodeID in [1, 2, 3, 4, 5]
                         if (nodeID != 2)
-                            li.menu_icon-alone
-                                span= 'Node ' + nodeID 
+                            li
+                                .menu_node-title
+                                    i.menu_icon-alone
+                                    span= 'Node ' + nodeID 
                         else 
-                            li.menu_icon-parent
-                                span= 'Parent Node ' + nodeID  
+                            li
+                                .menu_node-title
+                                    i.menu_icon-parent
+                                    span= 'Parent Node ' + nodeID
                                 input.menu-toggle_child#arrow(type='checkbox')
                                 label.menu_arrow(for='arrow')
                                 ul.menu_node-child
                                     each nodeID in [1, 2, 3, 4, 5]
-                                        li.menu_icon-child
-                                            span= 'Child Node ' + nodeID   
-
+                                        li
+                                            .menu_node-title
+                                                i.menu_icon-child
+                                                span= 'Child Node ' + nodeID 

@@ -49,7 +49,7 @@ const arrPath = {
 }
 // pug task
 gulp.task('build:pug', function() {
-    gulp
+    return gulp
         .src(arrPath.src.pug)
         .pipe(filter(['**/*.pug', '!**/_*.pug']))
         .pipe(pug({
@@ -67,7 +67,7 @@ gulp.task('build:pug', function() {
 
 // stylus task
 gulp.task('build:stylus', function() {
-    gulp
+    return gulp
         .src(arrPath.src.stylus)
         .pipe(filter(['**/*.styl', '!**/_*.styl']))
         .pipe(stylus({
@@ -80,7 +80,7 @@ gulp.task('build:stylus', function() {
 });
 
 gulp.task('build:fonts',function(){
-    gulp
+    return gulp
         .src(arrPath.src.fonts)
         .pipe(gulp.dest(arrPath.build.fonts))
 })
@@ -90,7 +90,7 @@ gulp.task('build:fonts',function(){
  */
 //sprite svg
 gulp.task('build:sprite', function() {
-    gulp
+    return gulp
         .src(arrPath.src.img)
         .pipe(svgMin({
             js2svg: {
@@ -107,44 +107,30 @@ gulp.task('build:sprite', function() {
         .pipe(gulp.dest(arrPath.build.sprite));
 })
 
-// build all
-gulp.task('build', 
-    [
-        'build:pug',
-        'build:stylus',
-        'build:fonts'
-    ]
-);
 
-// when developnent
-gulp.task('dev', 
-    [
-        'build',
-        'watcher',        
-        'serve',
-    ]
-);
 
 // start server
 gulp.task('serve', function () {
     browserSync.init({
         server: {
             baseDir: arrPath.build.main,
-            notify: false,
+            notify: true,
         }
     });
+    gulp
+        .watch(arrPath.watch.pug, gulp.series('build:pug'))
+        .on('change', browserSync.reload);
+    gulp
+        .watch(arrPath.watch.stylus, gulp.series('build:stylus'))
+        .on('change', browserSync.reload);
 });
-
-//watch files
-gulp.task('watcher', function() {
-    gulp
-        .watch(arrPath.watch.pug, ['build:pug'])
-        .on('change', browserSync.reload);
-    gulp
-        .watch(arrPath.watch.stylus, ['build:stylus'])
-        .on('change', browserSync.reload);
-})
 
 gulp.task('clean', function(unknown) {
     clean(arrPath.build.main, unknown);
 })
+// build all
+gulp.task('build', gulp.series('build:pug','build:stylus','build:fonts'));
+
+// when developnent
+gulp.task('dev', gulp.series('build','serve'));
+

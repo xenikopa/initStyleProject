@@ -1,12 +1,29 @@
-# initStyleProject
-init files for projects (gulp + stylus + pug)
+# Init Style Project
 
-### start project
-pls, use yarn 
->`yarn install`
+This repository contains various styles to get starting with project markup.
 
-if u want to see result in browser
+Stack:
+- `gulp` - build project
+- `pug` - write html
+- `styl` - write styles.
+
+
+## Installation
+
+Install with [npm](http://www.npmjs.com/):
+
+```sh
+$ npm install
+```
+or with [yarn](https://yarnpkg.com/)
+```sh
+$ yarn install
+```
+
+## Developing
+
+Run develop with command
 >`yarn run start:dev`
 
-if u want to get compiled files
+Get prod builded files with command
 >`yarn run build`

@@ -1,8 +1,8 @@
+'use strict';
 const gulp = require("gulp");
 const browserSync = require('browser-sync').create();
 const filter = require('gulp-filter');
 const pug = require('gulp-pug');
-const stylus = require('gulp-stylus');
 const uglify = require('gulp-uglify'); //minify js
 const prettify = require('gulp-prettify');
 const clean = require('rimraf');
@@ -11,6 +11,7 @@ const svgMin = require('gulp-svgmin');
 const cheerio = require('cheerio');
 const svgSprite = require('svg-sprite');
 const rename = require('gulp-rename');
+const sass = require('gulp-sass');
 
 const arrPath = {
     'src': {
@@ -18,8 +19,8 @@ const arrPath = {
             './src/html/*.pug',
         ],
         'stylus': [
-            './src/css/style.styl',
-            './src/css/*.styl',
+            './src/css/style.scss',
+            './src/css/*.scss',
         ],
         'fonts': [
             './src/fonts/*.*',
@@ -42,8 +43,8 @@ const arrPath = {
             './src/html/**/*.pug'
         ],
         'stylus': [
-            './src/css/*.styl',
-            './src/css/**/*.styl'
+            './src/css/*.scss',
+            './src/css/**/*.scss'
         ],
     }
 }
@@ -66,14 +67,11 @@ gulp.task('build:pug', function() {
 });
 
 // stylus task
-gulp.task('build:stylus', function() {
+gulp.task('build:style', function() {
     return gulp
         .src(arrPath.src.stylus)
-        .pipe(filter(['**/*.styl', '!**/_*.styl']))
-        .pipe(stylus({
-            'include css': true,
-            compress: true,
-        }))
+        .pipe(filter(['**/*.scss', '!**/_*.scss']))
+        .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
         .pipe(concat('styles.css'))
         .on('error', console.log)
         .pipe(gulp.dest(arrPath.build.css));
@@ -121,7 +119,7 @@ gulp.task('serve', function () {
         .watch(arrPath.watch.pug, gulp.series('build:pug'))
         .on('change', browserSync.reload);
     gulp
-        .watch(arrPath.watch.stylus, gulp.series('build:stylus'))
+        .watch(arrPath.watch.stylus, gulp.series('build:style'))
         .on('change', browserSync.reload);
 });
 
@@ -129,7 +127,7 @@ gulp.task('clean', function(unknown) {
     clean(arrPath.build.main, unknown);
 })
 // build all
-gulp.task('build', gulp.series('build:pug','build:stylus','build:fonts'));
+gulp.task('build', gulp.series('build:pug','build:style','build:fonts'));
 
 // when developnent
 gulp.task('dev', gulp.series('build','serve'));

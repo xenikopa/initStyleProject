@@ -2,23 +2,23 @@
 const gulp = require("gulp");
 const browserSync = require('browser-sync').create();
 const filter = require('gulp-filter');
-const pug = require('gulp-pug');
-const uglify = require('gulp-uglify'); //minify js
-const prettify = require('gulp-prettify');
 const clean = require('rimraf');
 const concat = require('gulp-concat');
 const svgMin = require('gulp-svgmin');
-const cheerio = require('cheerio');
 const svgSprite = require('svg-sprite');
 const rename = require('gulp-rename');
 const sass = require('gulp-sass');
+const uglify = require('gulp-uglify');
+const prefixer = require('gulp-autoprefixer');
+const rigger = require('gulp-rigger');
+const cssmin = require('gulp-minify-css');
 
 const arrPath = {
     'src': {
-        'pug': [
-            './src/html/*.pug',
+        'html': [
+            './src/html/*.html',
         ],
-        'stylus': [
+        'styles': [
             './src/css/style.scss',
             './src/css/*.scss',
         ],
@@ -27,6 +27,9 @@ const arrPath = {
         ],
         'img': [
             './src/img/*.*',
+        ],
+        'js': [
+            './src/js/*.js'
         ]
     },
     'build': {
@@ -35,43 +38,45 @@ const arrPath = {
         'css': './build/css/',
         'fonts': './build/fonts/',
         'img': './build/img/',
-        'sprite': './build/sprite/'
+        'sprite': './build/sprite/',
+        'js': './build/js'
     },
     'watch': {
-        'pug': [
-            './src/html/*.pug',
-            './src/html/**/*.pug'
+        'html': [
+            './src/html/*.html',
+            './src/html/**/*.html'
         ],
-        'stylus': [
+        'styles': [
             './src/css/*.scss',
             './src/css/**/*.scss'
         ],
+        'js': [
+            './src/js/*.js',
+            './src/js/**/*.js'
+        ]
     }
 }
-// pug task
-gulp.task('build:pug', function() {
-    return gulp
-        .src(arrPath.src.pug)
-        .pipe(filter(['**/*.pug', '!**/_*.pug']))
-        .pipe(pug({
-            doctype: 'html',
-            pretty: false
-        }))
-        .on('error', console.log)
-        .pipe(prettify({
-            'unformatted': ['pre', 'code'],
-            'preserve_newlines': true,
-            'end_with_newline': true
-        }))
-        .pipe(gulp.dest(arrPath.build.html));
+
+gulp.task('build:html', function () {
+    return gulp.src(arrPath.src.html) 
+        .pipe(rigger()) 
+        .pipe(gulp.dest(arrPath.build.html)) 
 });
 
-// stylus task
+gulp.task('build:js', function () {
+    return gulp.src(arrPath.src.js) 
+        .pipe(rigger())
+        .pipe(uglify())
+        .pipe(gulp.dest(arrPath.build.js))
+});
+
 gulp.task('build:style', function() {
     return gulp
-        .src(arrPath.src.stylus)
+        .src(arrPath.src.styles)
         .pipe(filter(['**/*.scss', '!**/_*.scss']))
         .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
+        .pipe(prefixer())
+        .pipe(cssmin())
         .pipe(concat('styles.css'))
         .on('error', console.log)
         .pipe(gulp.dest(arrPath.build.css));
@@ -116,10 +121,10 @@ gulp.task('serve', function () {
         }
     });
     gulp
-        .watch(arrPath.watch.pug, gulp.series('build:pug'))
+        .watch(arrPath.watch.html, gulp.series('build:html'))
         .on('change', browserSync.reload);
     gulp
-        .watch(arrPath.watch.stylus, gulp.series('build:style'))
+        .watch(arrPath.watch.styles, gulp.series('build:style'))
         .on('change', browserSync.reload);
 });
 
@@ -127,7 +132,7 @@ gulp.task('clean', function(unknown) {
     clean(arrPath.build.main, unknown);
 })
 // build all
-gulp.task('build', gulp.series('build:pug','build:style','build:fonts'));
+gulp.task('build', gulp.series('build:html','build:style','build:fonts'));
 
 // when developnent
 gulp.task('dev', gulp.series('build','serve'));

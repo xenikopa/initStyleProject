@@ -8,10 +8,10 @@ const svgMin = require('gulp-svgmin');
 const svgSprite = require('svg-sprite');
 const rename = require('gulp-rename');
 const sass = require('gulp-sass');
-const uglify = require('gulp-uglify');
 const prefixer = require('gulp-autoprefixer');
 const rigger = require('gulp-rigger');
 const cssmin = require('gulp-minify-css');
+const webpack = require('webpack-stream');
 
 const arrPath = {
     'src': {
@@ -65,8 +65,29 @@ gulp.task('build:html', function () {
 
 gulp.task('build:js', function () {
     return gulp.src(arrPath.src.js) 
-        .pipe(rigger())
-        .pipe(uglify())
+        .pipe(webpack({
+            entry: {
+                'wizard': './src/js/wizard/wizard.js'
+            },
+            output: {
+                filename: '[name].js'
+            },
+            optimization: {
+                minimize: false
+            },
+            module: {
+                rules: [
+                  {
+                    test: /\.js$/,
+                    exclude: /node_modules/,
+                    use: {
+                      loader: "babel-loader",
+        
+                    }
+                  },
+                ]
+            }
+        }))
         .pipe(gulp.dest(arrPath.build.js))
 });
 
@@ -126,13 +147,16 @@ gulp.task('serve', function () {
     gulp
         .watch(arrPath.watch.styles, gulp.series('build:style'))
         .on('change', browserSync.reload);
+    gulp
+        .watch(arrPath.watch.js, gulp.series('build:js'))
+        .on('change', browserSync.reload);
 });
 
 gulp.task('clean', function(unknown) {
     clean(arrPath.build.main, unknown);
 })
 // build all
-gulp.task('build', gulp.series('build:html','build:style','build:fonts'));
+gulp.task('build', gulp.series('build:html','build:style','build:fonts', 'build:js'));
 
 // when developnent
 gulp.task('dev', gulp.series('build','serve'));

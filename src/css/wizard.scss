@@ -1,0 +1,46 @@
+$primary-color: rgb(255, 0, 255);
+$primary-weaker-color: rgba(255, 0, 255, 0.1);
+.wizard {
+  display: grid;
+  grid-auto-flow: column;        
+  grid-template-columns: 50px auto 50px auto 50px;
+  grid-gap: 7px;
+  & .circle {
+    box-shadow: 0 0 0px 2px $primary-color;
+    transition: box-shadow 0.6s linear;
+    border-radius: 50%;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    font-size: 25px;
+    margin: auto;
+    position: relative;
+    opacity: 0.5;
+    transition: opacity .1s linear, box-shadow .1s linear, background-color .1s linear;
+    &:after {
+      content: attr(data-title);
+      white-space: nowrap;
+      font-size: 14px;
+      position: absolute;
+      top: 3.5em;
+    }
+    &.active {
+      opacity: 1;
+      box-shadow: 0 0 0px 3px $primary-color;
+    }
+    &.completed {
+      background-color: $primary-weaker-color;
+      opacity: 1;
+    }
+  }
+  & .divider {
+    border-bottom: 1px solid $primary-color;
+    align-self: center;
+  }
+}
+
+.form-block {
+  margin-top: 3em;
+}

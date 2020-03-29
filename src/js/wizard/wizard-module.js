@@ -1,5 +1,6 @@
-export const Wizard = function (circles) {
+export const Wizard = function (circles, boxForm) {
   let _circles = circles;
+  let _boxForm = boxForm;
   let _step = 0;
   let _state = {
     active: 'active', completed: 'completed'
@@ -20,6 +21,7 @@ export const Wizard = function (circles) {
     }
     _step = pipe(
       changeActive,
+      transformBack,
       decrementStep,
       changeComplete,
       changeActive
@@ -34,6 +36,7 @@ export const Wizard = function (circles) {
       changeActive,
       changeComplete,
       incrementStep,
+      transformForvard,
       changeActive
     )(_step)
   }
@@ -43,13 +46,23 @@ export const Wizard = function (circles) {
     toggleClassActive,
     mapTo(index)
   )(index)
-  let mapTo = (x) => () => x;
+  
   let changeComplete = (index) => pipe(
     getElement,
     toggleClassComplete,
     mapTo(index)
   )(index)
 
+  let transformForvard = (index) => {
+    _boxForm.classList.remove(`step${index}`);
+    _boxForm.classList.add(`step${index+1}`);
+    return index;
+  }
+  let transformBack = (index) => {
+    _boxForm.classList.remove(`step${index+1}`);
+    _boxForm.classList.add(`step${index}`);
+    return index;
+  }
   let getElement = (index) => _circles[index];
 
   let incrementStep = (step) => step + 1;
@@ -57,5 +70,7 @@ export const Wizard = function (circles) {
 
   let toggleClassComplete = (element) => element.classList.toggle(_state.completed)
   let toggleClassActive = (element) => element.classList.toggle(_state.active);
+
+  let mapTo = (x) => () => x;
 }
 

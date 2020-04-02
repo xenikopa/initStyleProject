@@ -5,7 +5,7 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ master, gh-pages ]
+    branches: [ master ]
   pull_request:
     branches: [ master ]
 
@@ -24,6 +24,12 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+    - run |
+      git config user.name xenikopa
+      git config user.email 'xenikopa@users.noreply.github.com'
+      git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - run: npm install
     - run: npm run deploy
       env:

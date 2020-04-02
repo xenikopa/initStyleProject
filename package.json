@@ -18,7 +18,7 @@
     "build": "NODE_ENV='production' gulp build",
     "start:dev": "gulp dev",
     "clean": "gulp clean",
-    "deploy": "npm run build && gh-pages -d public -b gh-pages"
+    "deploy": "npm run build && gh-pages -d build -b gh-pages"
   },
   "dependencies": {
     "browser-sync": "2.26.7",

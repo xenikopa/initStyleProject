@@ -1,0 +1,55 @@
+<h2>Toggler on CSS</h2>
+<div>
+  <input type="checkbox" class='toggler' name="toggle" id="toggle">
+  <label for="toggle" class='menu_icon' data-checked-text='Hide menu' data-unchecked-text='Show Menu'></label>
+  <div class='menu'>
+    <ul class='menu_node-parent'>
+      <li>
+        <div class='menu_node-title'>
+          <i class='menu_icon-alone'></i>
+          <span>Node 1</span>
+        </div>
+      </li>
+      <li>
+        <div class='menu_node-title'>
+          <i class='menu_icon-parent'></i>
+          <span>Parent Node 1</span>
+        </div>
+        <input type="checkbox" class='toggler_child' name="arrow" id="arrow">
+        <label for="arrow" class='menu_arrow'></label>
+        <ul class='menu_node-child'>
+          <li>
+            <div class='menu_node-title'>
+              <i class='menu_icon-child'></i>
+              <span>Child Node 1</span>
+            </div>
+          </li>
+          <li>
+            <div class='menu_node-title'>
+              <i class='menu_icon-child'></i>
+              <span>Child Node 2</span>
+            </div>
+          </li>
+          <li>
+            <div class='menu_node-title'>
+              <i class='menu_icon-child'></i>
+              <span>Child Node 3</span>
+            </div>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <div class='menu_node-title'>
+          <i class='menu_icon-alone'></i>
+          <span>Node 2</span>
+        </div>
+      </li>
+      <li>
+        <div class='menu_node-title'>
+          <i class='menu_icon-alone'></i>
+          <span>Node 3</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

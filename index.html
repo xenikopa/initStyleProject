@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel='stylesheet' href="./css/styles.css">
+  <title>Pure CSS tricks</title>
+</head>
+
+<body>
+  <h1>CSS tricks examples</h1>
+  <div class='list'>
+    <div class='list-item'>
+      <h2>Wizard</h2>
+      <div class='wizard' id='wizard'>
+        <div class='circle' data-title='Основная информация'>1</div>
+        <span class='divider'></span>
+        <div class='circle' data-title='Контактная информация'>2</div>
+        <span class='divider'></span>
+        <div class='circle' data-title='Выбор настроек'>3</div>
+      </div>
+      <div class='box'>
+        <div class='box-forms' id='forms'>
+          <div class='form'>
+            <b>Main Info</b>
+          </div>
+          <div class='form'>
+            <b>Contact Info</b>
+          </div>
+          <div class='form'>
+            <b>Choose Settings</b>
+          </div>
+        </div>
+        <div class='box-actions'>
+          <button id='prev' class='btn prev' type="button"><</button>
+          <button id='next' class='btn next' type="button">></button>
+        </div>
+      </div>
+      
+      
+      <script src="../js/wizard.js"></script>
+    </div>
+    <div class='list-item'>
+      <h2>Toggler on CSS</h2>
+      <div>
+        <input type="checkbox" class='toggler' name="toggle" id="toggle">
+        <label for="toggle" class='menu_icon' data-checked-text='Hide menu' data-unchecked-text='Show Menu'></label>
+        <div class='menu'>
+          <ul class='menu_node-parent'>
+            <li>
+              <div class='menu_node-title'>
+                <i class='menu_icon-alone'></i>
+                <span>Node 1</span>
+              </div>
+            </li>
+            <li>
+              <div class='menu_node-title'>
+                <i class='menu_icon-parent'></i>
+                <span>Parent Node 1</span>
+              </div>
+              <input type="checkbox" class='toggler_child' name="arrow" id="arrow">
+              <label for="arrow" class='menu_arrow'></label>
+              <ul class='menu_node-child'>
+                <li>
+                  <div class='menu_node-title'>
+                    <i class='menu_icon-child'></i>
+                    <span>Child Node 1</span>
+                  </div>
+                </li>
+                <li>
+                  <div class='menu_node-title'>
+                    <i class='menu_icon-child'></i>
+                    <span>Child Node 2</span>
+                  </div>
+                </li>
+                <li>
+                  <div class='menu_node-title'>
+                    <i class='menu_icon-child'></i>
+                    <span>Child Node 3</span>
+                  </div>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <div class='menu_node-title'>
+                <i class='menu_icon-alone'></i>
+                <span>Node 2</span>
+              </div>
+            </li>
+            <li>
+              <div class='menu_node-title'>
+                <i class='menu_icon-alone'></i>
+                <span>Node 3</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

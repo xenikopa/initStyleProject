@@ -66,6 +66,7 @@ gulp.task('build:html', function () {
 gulp.task('build:js', function () {
     return gulp.src(arrPath.src.js) 
         .pipe(webpack({
+            mode: process.env.NODE_ENV || 'development',
             entry: {
                 'wizard': './src/js/wizard/wizard.js'
             },
@@ -73,7 +74,7 @@ gulp.task('build:js', function () {
                 filename: '[name].js'
             },
             optimization: {
-                minimize: false
+                minimize: true
             },
             module: {
                 rules: [

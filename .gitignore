@@ -1,5 +1,6 @@
 #dir
 node_modules
+build 
 
 #files
 npm-debug.log

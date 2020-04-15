@@ -68,7 +68,7 @@ gulp.task('build:js', function () {
         .pipe(webpack({
             mode: process.env.NODE_ENV || 'development',
             entry: {
-                'wizard': './src/js/wizard/wizard.js'
+                'wizard': './src/js/wizard/wizard.js',
             },
             output: {
                 filename: '[name].js'

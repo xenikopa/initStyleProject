@@ -73,8 +73,7 @@ let getHelp = pipe(
   }
 );
 
-let isValidName = (name) => name !== undefined && name.length > 0 && !new RegExp(/\./g).test(name);
-
+let isValidName = (name) => name !== undefined && name.length > 0 && !name.includes('.');
 
 void function() {
     let argv = process.argv.slice(2);
@@ -82,9 +81,11 @@ void function() {
     pipe(
       name => isValidName(name) ? name : null,
       name => {
-        createTemplate(name, callbackFiles), 
-        createStyles(name, callbackFiles),
-        appendToIndex(name)
+        if (name !== null) {
+          createTemplate(name, callbackFiles), 
+          createStyles(name, callbackFiles),
+          appendToIndex(name)
+        }
       }
     )(argv[0])
 }()

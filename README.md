@@ -1,8 +1,9 @@
 # Pure Tricks
 
 This repository contains handmade:
-- css tricks
+- CSS tricks
 - build configuration for project markup
+- CLI to create new CSS tricks foundation
 
 Stack:
 - `gulp` - build project
@@ -29,8 +30,27 @@ $ yarn install
 Run develop with command
 >`yarn run start:dev`
 
+or
+
+>`npm start`
+
 Get prod builded files with command
 >`yarn run build`
+
+or
+
+>`npm run build`
+
+Create CSS trick foundation with command 
+>`npm run generate [trick-name]`
+
+or
+
+>`npm run g [trick-name]`
+
+or
+
+>`node pure-css-cli.js [trick-name]`
 
 ## Contains
 
